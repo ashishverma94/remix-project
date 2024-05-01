@@ -7,7 +7,8 @@ import { deleteContact } from "../data";
 export const action = async ({
   params,
 }: ActionFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
-  await deleteContact(params.contactId);
+  console.log(params)
+  invariant(params.blogId, "Missing contactId param");
+  await deleteContact(params.blogId);
   return redirect("/");
 };
