@@ -1,8 +1,12 @@
-import { json } from "@remix-run/node";
-import { getContacts } from "../data";
-import { NavLink, useLoaderData, } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
+import { createEmptyContact, getContacts } from "../data";
+import { Form, useLoaderData, } from "@remix-run/react";
 import { BlogCard } from "../components/BlogCard";
 
+export const action = async () => {
+  await createEmptyContact()
+  return redirect(`/`);
+};
 
 export async function loader() {
   const x = await getContacts();
@@ -14,9 +18,9 @@ export default function Index() {
   return (
     <>
       <h1>All blogs</h1>
-      <NavLink to={"createBlog"}>
+      <Form method="post">
         <button type="submit">Create New Blog</button>
-      </NavLink>
+      </Form>
       <div className="all-blog-container">
       {
         data.map((blog)=>{

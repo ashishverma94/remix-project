@@ -1,12 +1,13 @@
 import { Form, redirect } from '@remix-run/react'
 import type { ActionFunctionArgs } from "@remix-run/node";
-import {  updateContact } from '../data';
+import {  createEmptyContact, updateContact } from '../data';
 
 export const action = async ({  request }: ActionFunctionArgs) => {
     const formData = await request.formData();
     const newData = Object.fromEntries(formData);
     console.log(newData) ;
-    await updateContact(newData)
+    await createEmptyContact(newData.id)
+    await updateContact(newData.id,newData)
     // await updateContact("xx1", updates);
     return redirect(`/`);
   };

@@ -24,6 +24,7 @@ export type BlogRecord = BlogMutation & {
 ////////////////////////////////////////////////////////////////////////////////
 // This is just a fake DB table. In a real app you'd be talking to a real db or
 // fetching from an existing API.
+////////////////////////////////////////////////////////////////////////////////
 const fakeContacts = {
   records: {} as Record<string, BlogRecord>,
 
@@ -77,14 +78,13 @@ export async function getContact(id: string) {
   return fakeContacts.get(id);
 }
 
-export async function updateContact( updates: BlogMutation) {
-  console.log(updates)
-  // const contact = await fakeContacts.get(id);
-  const id = "id"+ Math.random().toString(36).substring(2, 9);
-
-
-  await fakeContacts.set(id, { ...updates });
-  return id;
+export async function updateContact(id: string, updates: BlogMutation) {
+  const contact = await fakeContacts.get(id);
+  if (!contact) {
+    throw new Error(`No contact found for ${id}`);
+  }
+  await fakeContacts.set(id, { ...contact, ...updates });
+  return contact;
 }
 
 export async function deleteContact(id: string) {
